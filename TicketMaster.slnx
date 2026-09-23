@@ -1,0 +1,17 @@
+﻿<Solution>
+  <File Path="README.md" />
+  <File Path=".gitignore" />
+<Folder Name="/src/">
+    <Project Path="src/TicketMaster.AppHost/TicketMaster.AppHost.csproj" Id="6706b291-ad29-4478-9472-1bd3e2c126d4" />
+    <Project Path="src/TicketMaster.Application/TicketMaster.Application.csproj" Id="c7aa34a6-96a3-4518-b1a9-fa3dc9a78fa1" />
+    <Project Path="src/TicketMaster.Domain/TicketMaster.Domain.csproj" Id="bad150c9-87cb-45b8-aef1-81808ac4fb75" />
+    <Project Path="src/TicketMaster.Infrastructure/TicketMaster.Infrastructure.csproj" Id="1ebd922a-69a9-4088-b396-3512ecacf1c2" />
+    <Project Path="src/TicketMaster.ServiceDefaults/TicketMaster.ServiceDefaults.csproj" />
+    <Project Path="src/WebAPI/WebAPI.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
+
+
+
+

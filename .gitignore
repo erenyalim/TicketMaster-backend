@@ -1,0 +1,53 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio and IDE files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Test results and coverage
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.local.json
+*.pfx
+*.p12
+*.jks
+*.keystore
+**/secrets/
+
+# .NET user secrets
+secrets.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and local databases
+*.log
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated documentation/cache files
+*.generated.cs
+
+# Aspire and local tooling artifacts
+.aspire/
