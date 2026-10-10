@@ -18,7 +18,8 @@ public sealed record EventGetByIdQueryResponse(
         TimeOnly Time,
         string Description,
         int Capacity,
-        AddressDto Address
+        AddressDto Address,
+        string ImageUrl
     );
 
 internal sealed class EventGetByIdQueryHandler(IEventRepository eventRepository) : IRequestHandler<EventGetByIdQuery, Result<EventGetByIdQueryResponse>>

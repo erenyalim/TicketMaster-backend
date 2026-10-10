@@ -12,7 +12,8 @@ namespace TicketMaster.Domain.Events
         {
         }
         public Event(string title, EventType type, DateOnly date,
-            TimeOnly time, string description, int capacity, Address address)
+            TimeOnly time, string description, int capacity, Address address,
+            string imageUrl = "")
         {
             Title = title;
             Type = type;
@@ -21,6 +22,7 @@ namespace TicketMaster.Domain.Events
             Description = description;
             Capacity = capacity;
             Address = address;
+            ImageUrl = imageUrl;
         }
 
         public string Title { get; private set; } = default!;
@@ -31,6 +33,7 @@ namespace TicketMaster.Domain.Events
         public string Description { get; private set; } = default!;
         public int Capacity { get; private set; }
         public Address Address { get; private set; } = default!;
+        public string ImageUrl { get; set; } = string.Empty;
 
     }
 

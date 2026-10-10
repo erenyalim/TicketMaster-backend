@@ -21,7 +21,8 @@ public sealed record EventGetAllQueryResponse(
     TimeOnly Time,
     string Description,
     int Capacity,
-    AddressDto Address
+    AddressDto Address,
+    string ImageUrl
 );
 
 internal sealed class EventGetAllQueryHandler (IEventRepository eventRepository) : IRequestHandler<EventGetAllQuery, Result<List<EventGetAllQueryResponse>>>

@@ -17,7 +17,8 @@ public sealed record EventUpdateCommand(
     TimeOnly Time,
     string Description,
     int Capacity,
-    AddressDto AddressDto
+    AddressDto AddressDto,
+    string ImageUrl = ""
 ) : IRequest<Result<string>>;
 
 public sealed class EventUpdateCommandValidator : AbstractValidator<EventUpdateCommand>
@@ -36,6 +37,8 @@ public sealed class EventUpdateCommandValidator : AbstractValidator<EventUpdateC
             .NotEmpty().WithMessage("Event time is required.");
         RuleFor(x => x.Description)
             .MaximumLength(2000).WithMessage("Description cannot exceed 2000 characters.");
+        RuleFor(x => x.ImageUrl)
+            .MaximumLength(2048).WithMessage("Image URL cannot exceed 2048 characters.");
         RuleFor(x => x.Capacity)
             .GreaterThan(0).WithMessage("Capacity must be greater than zero.");
         RuleFor(x => x.AddressDto)

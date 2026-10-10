@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TicketMaster.Domain.Abstraction;
+using TicketMaster.Domain.Entities;
 using TicketMaster.Domain.Events;
 using TicketMaster.Domain.Tickets;
 using TicketMaster.Domain.Users;
@@ -27,8 +28,14 @@ internal sealed class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Gui
         _httpContextAccessor = httpContextAccessor;
     }
 
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+        _httpContextAccessor = new HttpContextAccessor();
+    }
+
     public DbSet<Event> Events { get; set; }
     public DbSet<TicketType> TicketTypes { get; set; }
+    public DbSet<Banner> Banners => Set<Banner>();
 
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

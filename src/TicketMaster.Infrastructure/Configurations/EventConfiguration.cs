@@ -18,6 +18,9 @@ public sealed class EventConfiguration : IEntityTypeConfiguration<Event>
             .IsRequired()
             .HasMaxLength(2000);
 
+        builder.Property(e => e.ImageUrl)
+            .IsRequired();
+
         builder.Property(e => e.Type)
             .IsRequired();
 

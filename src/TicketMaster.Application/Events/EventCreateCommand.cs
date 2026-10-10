@@ -17,7 +17,8 @@ public sealed record EventCreateCommand(
     TimeOnly Time,
     string Description,
     int Capacity,
-    AddressDto AddressDto
+    AddressDto AddressDto,
+    string ImageUrl = ""
     ) : IRequest<Result<Guid>>;
 
 public sealed class EventCreateCommandValidator : AbstractValidator<EventCreateCommand>
@@ -35,6 +36,8 @@ public sealed class EventCreateCommandValidator : AbstractValidator<EventCreateC
             .NotEmpty().WithMessage("Event time is required.");
         RuleFor(x => x.Description)
             .MaximumLength(2000).WithMessage("Description cannot exceed 2000 characters.");
+        RuleFor(x => x.ImageUrl)
+            .MaximumLength(2048).WithMessage("Image URL cannot exceed 2048 characters.");
         RuleFor(x => x.Capacity)
             .GreaterThan(0).WithMessage("Capacity must be greater than zero.");
         RuleFor(x => x.AddressDto)
@@ -72,7 +75,8 @@ internal sealed class EventCreateCommandHandler(
             request.Time,
             request.Description,
             request.Capacity,
-            address);
+            address,
+            request.ImageUrl);
 
         await eventRepository.AddAsync(newEvent,cancellationToken);
         return Result<Guid>.Success(newEvent.Id, "Event created successfully.");

@@ -1,0 +1,48 @@
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Options;
+using TicketMaster.Application.Services;
+using TicketMaster.Infrastructure.Configuration;
+
+namespace TicketMaster.Infrastructure.Services;
+
+public class AzureBlobStorageService : IBlobStorageService
+{
+    private readonly BlobServiceClient _blobServiceClient;
+    private readonly string _defaultContainerName;
+
+    public AzureBlobStorageService(IOptions<AzureStorageOptions> options)
+    {
+        _blobServiceClient = new BlobServiceClient(options.Value.ConnectionString);
+        _defaultContainerName = options.Value.ContainerName;
+    }
+
+    public async Task<string> UploadAsync(Stream fileStream, string fileName, string contentType, string? containerName = null, CancellationToken cancellationToken = default)
+    {
+        var container = containerName ?? _defaultContainerName;
+        var containerClient = _blobServiceClient.GetBlobContainerClient(container);
+
+        await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob, cancellationToken: cancellationToken);
+
+        var extension = Path.GetExtension(fileName);
+        var blobName = $"{Guid.NewGuid()}{extension}"; 
+        var blobClient = containerClient.GetBlobClient(blobName);
+
+        var blobHttpHeader = new BlobHttpHeaders { ContentType = contentType };
+
+        await blobClient.UploadAsync(fileStream, new BlobUploadOptions { HttpHeaders = blobHttpHeader }, cancellationToken);
+
+        return blobName;
+    }
+
+    public async Task<bool> DeleteAsync(string blobName, string? containerName = null, CancellationToken cancellationToken = default)
+    {
+        var container = containerName ?? _defaultContainerName;
+        var containerClient = _blobServiceClient.GetBlobContainerClient(container);
+
+        var blobClient = containerClient.GetBlobClient(blobName);
+
+        return await blobClient.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots, cancellationToken: cancellationToken);
+    }
+
+}

@@ -10,13 +10,14 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using TicketMaster.Application.Auth;
+using TicketMaster.Application.Services;
 using TicketMaster.Domain.Events;
 using TicketMaster.Domain.Tickets;
 using TicketMaster.Domain.Users;
+using TicketMaster.Infrastructure.Configuration;
 using TicketMaster.Infrastructure.Context;
-using TicketMaster.Infrastructure.Repositories;
 using TicketMaster.Infrastructure.Options;
-using TicketMaster.Application.Services;
+using TicketMaster.Infrastructure.Repositories;
 using TicketMaster.Infrastructure.Services;
 
 namespace TicketMaster.Infrastructure;
@@ -110,8 +111,10 @@ public static class DependencyInjection
             .WithScopedLifetime()
 
             );
+        services.Configure<AzureStorageOptions>(
+            configuration.GetSection(AzureStorageOptions.SectionName));
 
-        return services;
+        return services;        
     }
 
 }

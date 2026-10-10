@@ -20,15 +20,12 @@ public static class RoleSeeder
                 continue;
             }
 
-            IdentityResult result = await roleManager.CreateAsync(
-                new IdentityRole<Guid>(role));
+            IdentityResult result = await roleManager.CreateAsync(new IdentityRole<Guid>(role));
 
             if (!result.Succeeded)
             {
                 string errors = string.Join(", ", result.Errors.Select(error => error.Description));
-
-                throw new InvalidOperationException(
-                    $"The '{role}' role could not be created: {errors}");
+                throw new InvalidOperationException($"The '{role}' role could not be created: {errors}");
             }
         }
     }

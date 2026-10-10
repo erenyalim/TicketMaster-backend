@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.RateLimiting;
 using Scalar.AspNetCore;
 using System.Threading.RateLimiting;
 using TicketMaster.Application;
+using TicketMaster.Application.Services;
 using TicketMaster.Infrastructure;
 using TicketMaster.Infrastructure.Identity;
+using TicketMaster.Infrastructure.Services;
 using WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +27,7 @@ builder.Services.AddRateLimiter(x =>
 
     });
 });
-
+        
 var app = builder.Build();
 
 await app.SeedIdentityAsync();
