@@ -6,6 +6,7 @@ using System.Text;
 using TicketMaster.Application.DTOs;
 using TicketMaster.Domain.Common;
 using TicketMaster.Domain.Events;
+using TicketMaster.Application.Services;
 using static TicketMaster.Domain.Events.Event;
 
 namespace TicketMaster.Application.Events;
@@ -47,7 +48,8 @@ public sealed class EventCreateCommandValidator : AbstractValidator<EventCreateC
 
 
 internal sealed class EventCreateCommandHandler(
-    IEventRepository eventRepository)
+    IEventRepository eventRepository,
+    IBlobStorageService blobStorageService)
     : IRequestHandler<EventCreateCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(
@@ -76,7 +78,7 @@ internal sealed class EventCreateCommandHandler(
             request.Description,
             request.Capacity,
             address,
-            request.ImageUrl);
+            blobStorageService.NormalizeUrl(request.ImageUrl));
 
         await eventRepository.AddAsync(newEvent,cancellationToken);
         return Result<Guid>.Success(newEvent.Id, "Event created successfully.");

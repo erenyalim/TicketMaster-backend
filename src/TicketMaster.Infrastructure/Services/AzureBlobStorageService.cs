@@ -32,7 +32,23 @@ public class AzureBlobStorageService : IBlobStorageService
 
         await blobClient.UploadAsync(fileStream, new BlobUploadOptions { HttpHeaders = blobHttpHeader }, cancellationToken);
 
-        return blobName;
+        return blobClient.Uri.ToString();
+    }
+
+    public string NormalizeUrl(string? imageUrl, string? containerName = null)
+    {
+        if (string.IsNullOrWhiteSpace(imageUrl))
+            return string.Empty;
+
+        if (Uri.TryCreate(imageUrl, UriKind.Absolute, out var uri) &&
+            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            return imageUrl;
+        }
+
+        var container = containerName ?? _defaultContainerName;
+        var blobName = imageUrl.TrimStart('/');
+        return _blobServiceClient.GetBlobContainerClient(container).GetBlobClient(blobName).Uri.ToString();
     }
 
     public async Task<bool> DeleteAsync(string blobName, string? containerName = null, CancellationToken cancellationToken = default)

@@ -13,5 +13,7 @@
             string blobName,
             string? containerName = null,
             CancellationToken cancellationToken = default);
+
+        string NormalizeUrl(string? imageUrl, string? containerName = null);
     }
 }

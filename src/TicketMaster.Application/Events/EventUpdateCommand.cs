@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TicketMaster.Application.DTOs;
+using TicketMaster.Application.Services;
 using TicketMaster.Domain.Events;
 
 namespace TicketMaster.Application.Events;
@@ -45,7 +46,9 @@ public sealed class EventUpdateCommandValidator : AbstractValidator<EventUpdateC
             .NotNull().WithMessage("Address is required.");
     }
 }
-internal sealed class EventUpdateCommandHandler(IEventRepository eventRepository) : IRequestHandler<EventUpdateCommand, Result<string>>
+internal sealed class EventUpdateCommandHandler(
+    IEventRepository eventRepository,
+    IBlobStorageService blobStorageService) : IRequestHandler<EventUpdateCommand, Result<string>>
 {
     public async Task<Result<string>> Handle(
         EventUpdateCommand request,
@@ -59,6 +62,7 @@ internal sealed class EventUpdateCommandHandler(IEventRepository eventRepository
         }
 
         request.Adapt(@event);
+        @event.ImageUrl = blobStorageService.NormalizeUrl(request.ImageUrl);
 
         await eventRepository.UpdateAsync(@event, cancellationToken);
 

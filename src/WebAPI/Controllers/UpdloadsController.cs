@@ -26,13 +26,13 @@ public class UploadsController : ControllerBase
 
 
         using var stream = file.OpenReadStream();
-        var blobName = await _blobStorageService.UploadAsync(
+        var imageUrl = await _blobStorageService.UploadAsync(
             fileStream: stream,
             fileName: file.FileName,
             contentType: file.ContentType,
             containerName: "images",
             cancellationToken: cancellationToken);
 
-        return Ok(new { fileName = blobName });
+        return Ok(new { imageUrl });
     }
 }

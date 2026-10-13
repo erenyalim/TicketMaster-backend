@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TicketMaster.Application.DTOs;
+using TicketMaster.Application.Services;
 using TicketMaster.Domain.Events;
 using static TicketMaster.Domain.Events.Event;
 
@@ -22,7 +23,9 @@ public sealed record EventGetByIdQueryResponse(
         string ImageUrl
     );
 
-internal sealed class EventGetByIdQueryHandler(IEventRepository eventRepository) : IRequestHandler<EventGetByIdQuery, Result<EventGetByIdQueryResponse>>
+internal sealed class EventGetByIdQueryHandler(
+    IEventRepository eventRepository,
+    IBlobStorageService blobStorageService) : IRequestHandler<EventGetByIdQuery, Result<EventGetByIdQueryResponse>>
 {
     public async Task<Result<EventGetByIdQueryResponse>> Handle(
         EventGetByIdQuery request,
@@ -36,6 +39,10 @@ internal sealed class EventGetByIdQueryHandler(IEventRepository eventRepository)
         }
 
         var response = @event.Adapt<EventGetByIdQueryResponse>();
+        response = response with
+        {
+            ImageUrl = blobStorageService.NormalizeUrl(response.ImageUrl)
+        };
         return Result<EventGetByIdQueryResponse>.Success(response);
     }
 }
