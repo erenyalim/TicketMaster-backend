@@ -14,6 +14,7 @@ public sealed class AppUser : IdentityUser<Guid>, IAuditable
     }
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
+    public string ProfilePictureUrl { get; set; } = string.Empty;
     public string FullName => $"{FirstName} {LastName}";
 
     #region Audit Properties

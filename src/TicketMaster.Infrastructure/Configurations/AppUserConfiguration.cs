@@ -12,6 +12,8 @@ public sealed class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
                 .HasMaxLength(50);
         builder.Property(u => u.LastName)
                 .HasMaxLength(50);
+        builder.Property(u => u.ProfilePictureUrl)
+                .HasMaxLength(2048);
                             
 
         builder.Ignore(u => u.FullName);
