@@ -14,7 +14,6 @@ using TicketMaster.Application.Services;
 using TicketMaster.Domain.Events;
 using TicketMaster.Domain.Tickets;
 using TicketMaster.Domain.Users;
-using TicketMaster.Infrastructure.Configuration;
 using TicketMaster.Infrastructure.Context;
 using TicketMaster.Infrastructure.Options;
 using TicketMaster.Infrastructure.Repositories;

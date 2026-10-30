@@ -2,7 +2,7 @@
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Options;
 using TicketMaster.Application.Services;
-using TicketMaster.Infrastructure.Configuration;
+using TicketMaster.Infrastructure.Options;
 
 namespace TicketMaster.Infrastructure.Services;
 

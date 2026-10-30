@@ -18,6 +18,7 @@
 	  </PackageReference>
 	  <PackageReference Include="Scrutor" Version="7.0.0" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.2" />
+	  <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,10 +29,6 @@
 	  <ProjectReference Include="..\TicketMaster.Application\TicketMaster.Application.csproj" />
 	  <ProjectReference Include="..\TicketMaster.Domain\TicketMaster.Domain.csproj" />
 	
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Configuration\" />
 	</ItemGroup>
 
 </Project>
