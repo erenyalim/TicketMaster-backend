@@ -12,7 +12,9 @@ using static TicketMaster.Domain.Events.Event;
 
 namespace TicketMaster.Application.Events;
 
-public sealed record EventGetAllQuery() : IRequest<Result<List<EventGetAllQueryResponse>>>;
+public sealed record EventGetAllQuery(
+    EventType? Category = null,
+    string? Search = null) : IRequest<Result<List<EventGetAllQueryResponse>>>;
 
 public sealed record EventGetAllQueryResponse(
     Guid Id,
@@ -34,7 +36,10 @@ internal sealed class EventGetAllQueryHandler(
         EventGetAllQuery request,
         CancellationToken cancellationToken)
     {
-        var events = await eventRepository.GetAllAsync(cancellationToken);
+        var events = await eventRepository.GetFilteredAsync(
+            request.Category,
+            request.Search,
+            cancellationToken);
 
         var response = events.Adapt<List<EventGetAllQueryResponse>>();
 

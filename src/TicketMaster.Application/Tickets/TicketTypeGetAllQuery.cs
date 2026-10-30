@@ -8,7 +8,9 @@ using TicketMaster.Domain.Tickets;
 
 namespace TicketMaster.Application.Tickets;
 
-public sealed class TicketTypeGetAllQuery() : IRequest<Result<List<TicketTypeGetAllQueryResponse>>>;
+public sealed record TicketTypeGetAllQuery(
+    Guid? EventId = null)
+    : IRequest<Result<List<TicketTypeGetAllQueryResponse>>>;
 
 public sealed record TicketTypeGetAllQueryResponse(
  Guid Id,
@@ -23,7 +25,9 @@ internal sealed class TicketTypeGetAllQueryHandler(ITicketTypeRepository ticketR
         TicketTypeGetAllQuery request,
         CancellationToken cancellationToken)
     {
-        var tickets = await ticketRepository.GetAllAsync(cancellationToken);
+        var tickets = request.EventId.HasValue
+            ? await ticketRepository.GetByEventIdAsync(request.EventId.Value, cancellationToken)
+            : await ticketRepository.GetAllAsync(cancellationToken);
 
         var response = tickets.Adapt<List<TicketTypeGetAllQueryResponse>>();
 

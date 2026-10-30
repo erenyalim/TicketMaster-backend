@@ -17,7 +17,10 @@ public sealed record LoginCommand
 
 public sealed record LoginCommandResponse
 (
-    string AccessToken
+    string AccessToken,
+    string FirstName,
+    string LastName,
+    string FullName
 );
 
 public sealed class LoginCommandHandler (
@@ -62,7 +65,11 @@ public sealed class LoginCommandHandler (
 
         var token = await jwtProvider.CreateTokenAsync(user, cancellationToken);
 
-        var response = new LoginCommandResponse(token);
+         var response = new LoginCommandResponse(
+             token,
+             user.FirstName,
+             user.LastName,
+             user.FullName);
 
         return Result<LoginCommandResponse>.Success(response);
     }

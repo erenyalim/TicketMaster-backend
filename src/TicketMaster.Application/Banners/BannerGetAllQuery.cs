@@ -6,7 +6,7 @@ using TicketMaster.Domain.Entities;
 
 namespace TicketMaster.Application.Banners;
 
-public sealed record BannerGetAllQuery(bool IncludeInactive = false)
+public sealed record BannerGetAllQuery
     : IRequest<Result<List<BannerGetAllQueryResponse>>>;
 
 public sealed record BannerGetAllQueryResponse(
@@ -27,13 +27,9 @@ internal sealed class BannerGetAllQueryHandler(
         BannerGetAllQuery request,
         CancellationToken cancellationToken)
     {
-        var banners = await bannerRepository.GetAllAsync(cancellationToken);
+        var banners = await bannerRepository.GetActiveOrderedAsync(cancellationToken);
 
-        var response = banners
-            .Where(banner => request.IncludeInactive || banner.IsActive)
-            .OrderBy(banner => banner.DisplayOrder)
-            .ThenBy(banner => banner.Title)
-            .Adapt<List<BannerGetAllQueryResponse>>();
+        var response = banners.Adapt<List<BannerGetAllQueryResponse>>();
 
         for (var i = 0; i < response.Count; i++)
         {

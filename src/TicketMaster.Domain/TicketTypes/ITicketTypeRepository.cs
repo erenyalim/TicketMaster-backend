@@ -7,4 +7,7 @@ namespace TicketMaster.Domain.Tickets;
 
 public interface ITicketTypeRepository : IRepository<TicketType>
 {
+    Task<IReadOnlyList<TicketType>> GetByEventIdAsync(
+        Guid eventId,
+        CancellationToken cancellationToken = default);
 }
