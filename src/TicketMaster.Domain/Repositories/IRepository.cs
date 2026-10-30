@@ -29,5 +29,9 @@ public interface IRepository<T> where T : Entity
         CancellationToken cancellationToken = default);
     Task<IReadOnlyList<T>> GetAllAsync(
         CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<T>> GetAllAsync(
+        Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken = default);
 }
 

@@ -10,8 +10,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TicketMaster.Domain.Abstraction;
+using TicketMaster.Domain.Cart;
 using TicketMaster.Domain.Entities;
 using TicketMaster.Domain.Events;
+using TicketMaster.Domain.Orders;
 using TicketMaster.Domain.Tickets;
 using TicketMaster.Domain.Users;
 
@@ -35,6 +37,12 @@ internal sealed class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Gui
 
     public DbSet<Event> Events { get; set; }
     public DbSet<TicketType> TicketTypes { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<InventoryReservation> InventoryReservations { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Banner> Banners => Set<Banner>();
 
 
@@ -62,6 +70,24 @@ internal sealed class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Gui
             .HasQueryFilter(entity => !entity.IsDeleted);
 
         modelBuilder.Entity<TicketType>()
+            .HasQueryFilter(entity => !entity.IsDeleted);
+
+        modelBuilder.Entity<Cart>()
+            .HasQueryFilter(entity => !entity.IsDeleted);
+
+        modelBuilder.Entity<CartItem>()
+            .HasQueryFilter(entity => !entity.IsDeleted);
+
+        modelBuilder.Entity<Order>()
+            .HasQueryFilter(entity => !entity.IsDeleted);
+
+        modelBuilder.Entity<OrderItem>()
+            .HasQueryFilter(entity => !entity.IsDeleted);
+
+        modelBuilder.Entity<InventoryReservation>()
+            .HasQueryFilter(entity => !entity.IsDeleted);
+
+        modelBuilder.Entity<Ticket>()
             .HasQueryFilter(entity => !entity.IsDeleted);
 
         modelBuilder.Entity<AppUser>()

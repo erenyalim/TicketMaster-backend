@@ -51,4 +51,14 @@ internal abstract class Repository<T> : IRepository<T> where T : Entity
     {
         return await Context.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<T>> GetAllAsync(
+        Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return await Context.Set<T>()
+            .Where(predicate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
 }
